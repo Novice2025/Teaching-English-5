@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lego-Chain English | Correção de Bra-glish</title>
+    <!-- Load Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Lucide Icons via CDN -->
+    <script type="module">
+        import { createIcons, Zap, CheckCircle, XCircle, ArrowRight, UserCheck, Blocks } from 'https://unpkg.com/lucide@latest/dist/esm/lucide.js';
+        window.lucide = { createIcons, Zap, CheckCircle, XCircle, ArrowRight, UserCheck, Blocks };
+    </script>
+    <style>
+        @import url('https://fonts.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb; /* bg-gray-50 */
+        }
+        .block-chain-container {
+            scroll-margin-top: 8rem; /* Para o scroll se ajustar ao cabeçalho fixo */
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <div id="app">
+        <!-- Conteúdo será renderizado aqui -->
+    </div>
+
+    <script>
+        // --- DATA: LESSON BLOCKS (O NOSSO "BLOCK CHAIN") ---
+        // Novo conjunto de lições baseado nas sentenças 102 a 128.
+        const lessonBlocks = [
+          {
+            title: "Bloco 12: Estado, Cidades e Metáforas",
+            concepts: [
+              {
+                english: "To be in a state of chaos/bedlam.",
+                portuguese: "Estar em estado de pandemônio/caos.",
+                culturalNote: "O termo **'pandemonium'** é um substantivo ('estado de desordem'). Não se usa 'pandemonium state', que é redundante. Prefira **'state of chaos'** ou **'bedlam'**.",
+              },
+              {
+                english: "The city of São Paulo is a metropolitan area.",
+                portuguese: "A cidade de SP é uma cidade metropolitana.",
+                culturalNote: "O adjetivo é **'metropolitan'**; a cidade em si é uma **'metropolitan area'** (área metropolitana) ou **'metropolis'** (metrópole), e não 'metropolitan city'.",
+              },
+              {
+                english: "I am drinking to your health.",
+                portuguese: "Estou bebendo à sua saúde.",
+                culturalNote: "Correto. O idioma é **'drinking to your health'** ou simplesmente **'Cheers!'** ou **'To your health!'**.",
+              },
+              {
+                english: "The situation is spiraling out of control.",
+                portuguese: "A situação está fora de controle.",
+                culturalNote: "A expressão **'out of control'** está correta. **'Spiraling out of control'** é uma forma mais dramática e nativa de dizer que a situação está piorando rapidamente.",
+              },
+              {
+                english: "Things are getting worse. (or: The situation is deteriorating.)",
+                portuguese: "As coisas estão ficando piores.",
+                culturalNote: "O superlativo é 'worst' (o pior). O comparativo é **'worse'** (pior). Use **'getting worse'** quando a situação está em declínio.",
+              }
+            ],
+            quiz: {
+              question: "Qual palavra completa a frase: 'The whole office was in a state of ______ after the server crash'?",
+              options: [
+                { text: "pandemonium state", correct: false, explanation: "'Pandemonium state' é redundante. Use 'chaos' ou 'pandemonium'." },
+                { text: "pandemonium", correct: true },
+                { text: "chaos status", correct: false, explanation: "Não é uma expressão nativa. Use 'chaos'." }
+              ],
+              tip: "Se algo é um pandemônio, já implica o 'estado'. Use a palavra sozinha."
+            }
+          },
+          {
+            title: "Bloco 13: Negócios, Ganhos e Perdas",
+            concepts: [
+              {
+                english: "We are losing on both sides/fronts.",
+                portuguese: "Estamos perdendo nas duas pontas (ou nas duas cláusulas).",
+                culturalNote: "A expressão idiomática para perder em todas as frentes é **'losing on both sides'** ou **'losing on both fronts'**. 'Clauses' (cláusulas, sentenças) é incorreto neste contexto.",
+              },
+              {
+                english: "To burn the midnight oil.",
+                portuguese: "Trabalhar até tarde da noite.",
+                culturalNote: "Esta expressão idiomática é correta e significa **'trabalhar até altas horas da noite'** (literalmente, gastar óleo para manter a lâmpada acesa).",
+              },
+              {
+                english: "The police showed Exhibit A. (or: The police showed the evidence/sample.)",
+                portuguese: "A polícia mostrou a evidência/amostra.",
+                culturalNote: "**'Exhibit A'** é o termo legal para a principal peça de evidência. 'Sample' (amostra) só se aplica se for uma pequena porção de algo.",
+              },
+              {
+                english: "We need a catalyst/incentive to move the foreign case forward.",
+                portuguese: "Precisamos de um catalisador para concluir o caso.",
+                culturalNote: "**'Inhibitor'** é o oposto de **'catalyst'**; ele inibe/bloqueia algo. Para mover um caso para frente, você precisa de um **'catalyst'** (catalisador) ou **'incentive'** (incentivo).",
+              },
+              {
+                english: "Dilma was caught red-handed in the Petrobras affair.",
+                portuguese: "Dilma foi pega com a mão na massa no caso Petrobras.",
+                culturalNote: "O idioma é **'caught red-handed'** (pego com a mão vermelha de sangue/culpa). 'Caught handed' é 'Bra-glish'.",
+              }
+            ],
+            quiz: {
+              question: "Qual o erro na frase 'I can't believe we are losing on both *clauses*!'",
+              options: [
+                { text: "O verbo 'losing' deveria ser 'wasting'.", correct: false, explanation: "'Losing' está correto para perda." },
+                { text: "A palavra 'clauses' está incorreta; deveria ser 'sides' ou 'fronts'.", correct: true },
+                { text: "A expressão correta é 'winning on both clauses'.", correct: false, explanation: "O contexto é de perda." }
+              ],
+              tip: "O termo correto para 'pontas' ou 'lados' em uma negociação é **sides** ou **fronts**, não 'clauses'."
+            }
+          },
+          {
+            title: "Bloco 14: Rotina, Imprensa e Finais de Semana",
+            concepts: [
+              {
+                english: "The computer needs some patches to fix the bug/issue.",
+                portuguese: "O computador precisa de patches para consertar o glitch/falha.",
+                culturalNote: "**'Glitch'** é um termo válido para falha técnica. O termo mais comum e geral é **'bug'** ou **'issue'**. 'Patches' e 'fix the glitch' estão corretos.",
+              },
+              {
+                english: "João Paulo is live on Bandeirantes. (or: João Paulo is on the air now.)",
+                portuguese: "João Paulo está no ar na Bandeirantes.",
+                culturalNote: "A expressão **'on the air'** está correta. **'Live'** (ao vivo) ou **'broadcasting'** (transmitindo) são outras boas opções.",
+              },
+              {
+                english: "Haddad wanted to kill two birds with one stone.",
+                portuguese: "Haddad queria matar dois coelhos com uma cajadada só.",
+                culturalNote: "O idioma equivalente em inglês é **'kill two birds with one stone'**.",
+              },
+              {
+                english: "The Federal Court halted Haddad at the eleventh hour.",
+                portuguese: "O Tribunal Federal parou Haddad na 11ª hora.",
+                culturalNote: "O idioma **'at the eleventh hour'** (na última hora possível/no limite) está correto.",
+              },
+              {
+                english: "I am taking an impression (used by a dentist).",
+                portuguese: "Estou tirando uma impressão.",
+                culturalNote: "O termo **'taking an impression'** está correto, mas é específico para o trabalho de dentistas e outros profissionais que fazem moldes.",
+              }
+            ],
+            quiz: {
+              question: "Qual o idiomático equivalente a 'matar dois coelhos com uma cajadada só'?",
+              options: [
+                { text: "Kill two foxes with one hit.", correct: false, explanation: "Não é o idioma correto." },
+                { text: "Kill two birds with one stone.", correct: true },
+                { text: "Hit two stones with one bird.", correct: false, explanation: "Ordem incorreta." }
+              ],
+              tip: "A imagem mental é de acertar dois pássaros com uma única pedra."
+            }
+          },
+          {
+            title: "Bloco 15: Condução, Emoções e Termos Urbanos",
+            concepts: [
+              {
+                english: "Avenida Nações Unidas is a main thoroughfare/artery.",
+                portuguese: "Avenida Nações Unidas é uma artéria principal.",
+                culturalNote: "**'Artery'** é correto como metáfora para uma via principal. O termo mais comum e funcional para uma rua movimentada é **'thoroughfare'** (via de passagem).",
+              },
+              {
+                english: "There are many paths to success.",
+                portuguese: "Há muitos caminhos (venues) para o sucesso.",
+                culturalNote: "**'Venue'** significa 'local' ou 'palco' (e.g., concert venue). A palavra para 'caminhos' ou 'formas' de alcançar um objetivo é **'paths'** ou **'avenues'**.",
+              },
+              {
+                english: "He is behind the wheel.",
+                portuguese: "Ele está ao volante/dirigindo.",
+                culturalNote: "**'Behind the wheels'** (plural) é comum em 'Bra-glish'. O correto é **'behind the wheel'** (singular).",
+              },
+              {
+                english: "I am taking a long weekend/I am making a long weekend.",
+                portuguese: "Vou fazer uma ponte/fim de semana prolongado.",
+                culturalNote: "O 'fim de semana prolongado' brasileiro é um **'long weekend'** ou **'three-day weekend'**. 'Weekend bridge' é a tradução literal que deve ser evitada.",
+              },
+              {
+                english: "I blew a fuse. (or: I lost it / I got angry.)",
+                portuguese: "Eu explodi/perdi a calma.",
+                culturalNote: "**'Blow a fuse'** é uma expressão idiomática correta que significa 'ficar muito zangado' ou 'perder a paciência' (como um fusível elétrico queimando).",
+              }
+            ],
+            quiz: {
+              question: "Qual a expressão mais nativa para 'Eu perdi a paciência'?",
+              options: [
+                { text: "I lost my patience.", correct: false, explanation: "Gramaticalmente correto, mas 'blow a fuse' ou 'lose it' são mais idiomáticos." },
+                { text: "I blew a fuse.", correct: true },
+                { text: "I exploded my anger.", correct: false, explanation: "Não é uma expressão nativa." }
+              ],
+              tip: "Pense no seu temperamento como um fusível: quando ele queima, você perde o controle: **blew a fuse**."
+            }
+          }
+        ];
+
+        // --- GLOBAL STATE ---
+        let currentBlockIndex = 0;
+        let quizStates = lessonBlocks.map(() => ({
+            answered: false,
+            correct: null,
+            selectedOption: null,
+        }));
+
+        // --- UTILITY FUNCTIONS ---
+
+        function getIconSVG(name, classes) {
+            const size = "w-6 h-6";
+            const color = classes;
+            // Uses Lucide icons (pre-loaded in <script type="module">)
+            const icons = {
+                Blocks: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${size} ${color}"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M17 2h3a2 2 0 0 1 2 2v3"/><path d="M7 2h3a2 2 0 0 0 2 2v3"/><path d="M10 2v3"/><path d="M7 2v3"/><path d="M17 2v3"/></svg>`,
+                Zap: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${size} ${color}"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+                CheckCircle: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${size} ${color}"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M9 11l3 3L22 4"/></svg>`,
+                XCircle: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${size} ${color}"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>`,
+                ArrowRight: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${size} ${color}"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>`,
+                UserCheck: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${size} ${color}"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M19 8h6"/><path d="m22 3-6 6"/><circle cx="9" cy="7" r="4"/></svg>`,
+            };
+            return icons[name] || '';
+        }
+
+        function handleAnswer(blockIndex, optionIndex) {
+            const block = lessonBlocks[blockIndex];
+            const option = block.quiz.options[optionIndex];
+            
+            if (quizStates[blockIndex].answered) return;
+
+            const isCorrect = option.correct;
+            quizStates[blockIndex] = {
+                answered: true,
+                correct: isCorrect,
+                selectedOption: option,
+            };
+
+            renderApp(); // Re-render the app to update the block UI
+
+            if (isCorrect) {
+                // Wait 1.5s before moving to the next block
+                setTimeout(() => {
+                    handleBlockCompletion(blockIndex);
+                }, 1500);
+            }
+        }
+
+        function handleBlockCompletion(blockIndex) {
+            if (blockIndex === currentBlockIndex && quizStates[blockIndex].correct) {
+                currentBlockIndex++;
+                renderApp(); // Re-render the app to highlight the next block and scroll
+
+                // Scroll to the new active block
+                const activeBlockElement = document.getElementById(`block-${currentBlockIndex}`);
+                if (activeBlockElement) {
+                    activeBlockElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+        }
+
+        // --- RENDER FUNCTIONS ---
+
+        function renderBlock(block, index) {
+            const isActive = index === currentBlockIndex;
+            const state = quizStates[index];
+            
+            const IconName = state.correct === true ? 'CheckCircle' : state.correct === false ? 'XCircle' : 'Zap';
+            const iconColor = state.correct === true ? "text-green-500" : state.correct === false ? "text-red-500" : "text-indigo-600";
+            const statusText = state.correct === true ? "Parabéns! Bloco Conectado." : state.correct === false ? "Opa! Reveja a nota cultural." : "Teste seu entendimento";
+
+            let conceptsHtml = block.concepts.map((concept, cIndex) => `
+                <div class="p-4 bg-indigo-50 rounded-lg">
+                    <p class="text-sm font-semibold text-indigo-700">🇧🇷 Português (O que queremos dizer):</p>
+                    <p class="text-xl italic text-gray-700 mb-2">"${concept.portuguese}"</p>
+                    <p class="text-sm font-semibold text-indigo-700">🇬🇧 English (A forma nativa):</p>
+                    <p class="text-2xl font-bold text-gray-900 mb-3">"${concept.english}"</p>
+                    <div class="mt-2 p-3 bg-indigo-100 rounded-md">
+                        <p class="text-sm font-medium text-indigo-900">💡 Raiz do Erro / Lego (O Porquê da Lição):</p>
+                        <p class="text-base text-indigo-900">${concept.culturalNote}</p>
+                    </div>
+                </div>
+            `).join('');
+
+
+            let optionsHtml = block.quiz.options.map((option, oIndex) => {
+                let buttonClass = "bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 focus:ring-indigo-500";
+                let disabled = '';
+
+                if (state.answered) {
+                    disabled = 'disabled';
+                    if (option.correct) {
+                        buttonClass = "bg-green-500 ring-4 ring-green-300 transform scale-105";
+                    } else if (option === state.selectedOption) {
+                        buttonClass = "bg-red-500 ring-4 ring-red-300 transform scale-105";
+                    } else {
+                        buttonClass = "bg-gray-400 cursor-not-allowed";
+                    }
+                }
+                
+                return `
+                    <button
+                        onclick="handleAnswer(${index}, ${oIndex})"
+                        ${disabled}
+                        class="p-4 text-white font-semibold rounded-xl transition duration-300 shadow-md transform hover:shadow-lg ${buttonClass} ${state.answered && !option.correct ? 'hover:shadow-none' : ''}"
+                    >
+                        ${option.text}
+                    </button>
+                `;
+            }).join('');
+
+            let quizFeedbackHtml = '';
+            if (state.answered) {
+                const feedbackClass = state.correct ? 'bg-green-100 border-2 border-green-500' : 'bg-red-100 border-2 border-red-500';
+                const feedbackTitleClass = state.correct ? 'text-green-800' : 'text-red-800';
+                const feedbackTitle = state.correct ? "Correto!" : "Incorreto!";
+                
+                let explanation = '';
+                if (!state.correct) {
+                    // Find the explanation for the selected incorrect option
+                    const selectedOptionData = block.quiz.options.find(opt => opt.text === state.selectedOption.text);
+                    const explanationText = selectedOptionData ? selectedOptionData.explanation : "Reveja a nota cultural acima.";
+                    
+                    explanation = `
+                        <p class="text-red-700 mt-2">
+                            **Revisão:** ${explanationText}
+                        </p>
+                    `;
+                }
+                
+                let nextButton = '';
+                if (state.correct) {
+                    nextButton = `
+                        <button
+                            onclick="handleBlockCompletion(${index})"
+                            class="mt-4 px-4 py-2 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 flex items-center transition duration-200"
+                        >
+                            Próximo Bloco ${getIconSVG('ArrowRight', 'w-5 h-5 ml-2')}
+                        </button>
+                    `;
+                }
+
+                quizFeedbackHtml = `
+                    <div class="mt-6 p-4 rounded-xl transition-opacity duration-500 ${feedbackClass}">
+                        <p class="font-bold text-lg ${feedbackTitleClass}">
+                            ${feedbackTitle}
+                        </p>
+                        ${explanation}
+                        <p class="text-gray-700 mt-2">
+                            **Dica do Professor:** ${block.quiz.tip}
+                        </p>
+                        ${nextButton}
+                    </div>
+                `;
+            }
+
+            const blockClass = isActive 
+                ? 'bg-white border-4 border-indigo-300 transform scale-100' 
+                : 'bg-gray-100 opacity-60 pointer-events-none';
+
+            return `
+                <div id="block-${index}" class="block-chain-container p-6 md:p-8 rounded-xl shadow-2xl transition-all duration-500 ${blockClass}">
+                    <h3 class="text-3xl font-extrabold text-gray-900 mb-6 flex items-center">
+                        ${getIconSVG('Blocks', 'w-8 h-8 text-indigo-500 mr-3')} ${block.title}
+                    </h3>
+
+                    <!-- CONCEITOS -->
+                    <div class="space-y-6 mb-8 border-l-4 border-indigo-400 pl-4">
+                        ${conceptsHtml}
+                    </div>
+
+                    <!-- EXERCÍCIO -->
+                    <div class="mt-8 pt-6 border-t border-indigo-200">
+                        <h4 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                            ${getIconSVG(IconName, `w-6 h-6 mr-2 ${iconColor}`)} ${statusText}
+                        </h4>
+                        
+                        <p class="text-lg font-medium text-gray-700 mb-6">${block.quiz.question}</p>
+
+                        <div class="grid md:grid-cols-3 gap-4">
+                            ${optionsHtml}
+                        </div>
+
+                        ${quizFeedbackHtml}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderApp() {
+            const container = document.getElementById('app');
+            const isComplete = currentBlockIndex >= lessonBlocks.length;
+            const progressPercent = (currentBlockIndex / lessonBlocks.length) * 100;
+
+            // HEADER
+            const header = `
+                <header class="bg-white shadow-lg sticky top-0 z-10">
+                    <div class="max-w-4xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+                        <h1 class="text-3xl font-extrabold text-indigo-700 flex items-center">
+                            ${getIconSVG('Blocks', 'w-8 h-8 mr-2 text-indigo-500')}
+                            Lego-Chain English
+                        </h1>
+                        <div class="flex items-center space-x-2">
+                            ${getIconSVG('UserCheck', 'w-5 h-5 text-gray-500')}
+                            <span class="text-sm font-medium text-gray-600">By Daby @2025</span>
+                        </div>
+                    </div>
+                </header>
+            `;
+            
+            // MAIN CONTENT START
+            let mainContent = `
+                <main class="max-w-4xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
+                    
+                    <!-- BOAS-VINDAS -->
+                    <div class="bg-indigo-600 p-6 sm:p-8 rounded-2xl shadow-xl text-white mb-10">
+                        <h2 class="text-3xl font-bold mb-3">Bem-vindo(a) à sua jornada de inglês!</h2>
+                        <p class="text-lg opacity-90">
+                            O objetivo deste curso é consertar o **"Bra-glish"**, a tradução literal que nos impede de soar nativos. Estes blocos cobrem novas lições focando em vícios de linguagem comuns (Sentenças 102-128).
+                        </p>
+                        <div class="mt-4">
+                            <p class="text-base font-semibold">Progresso Atual:</p>
+                            <div class="w-full bg-indigo-500 rounded-full h-2.5 mt-1">
+                                <div 
+                                    class="bg-lime-300 h-2.5 rounded-full transition-all duration-700" 
+                                    style="width: ${progressPercent}%"
+                                    role="progressbar"
+                                    aria-valuenow="${progressPercent}"
+                                    aria-valuemin="0"
+                                    aria-valuemax="100"
+                                ></div>
+                            </div>
+                            <p class="text-sm mt-1">${currentBlockIndex} de ${lessonBlocks.length} Blocos Conectados</p>
+                        </div>
+                    </div>
+
+                    <!-- BLOCKS CONTAINER -->
+                    <div class="space-y-8">
+            `;
+
+            // BLOCKS RENDERING
+            mainContent += lessonBlocks.map((block, index) => {
+                const blockHtml = renderBlock(block, index);
+                
+                let connectionLine = '';
+                if (index > 0) {
+                    const lineColor = index <= currentBlockIndex ? 'bg-lime-500' : 'bg-gray-300';
+                    connectionLine = `
+                        <div class="absolute -top-4 left-1/2 -ml-0.5 w-1 h-8 ${lineColor} transition-colors duration-500"></div>
+                    `;
+                }
+
+                let completionIndicator = '';
+                 if (index < lessonBlocks.length - 1) {
+                    const indicatorClass = index < currentBlockIndex ? 'scale-100 opacity-100' : 'scale-0 opacity-0';
+                    completionIndicator = `
+                        <div class="flex justify-center -mb-4 mt-4 transition-transform duration-500 ${indicatorClass}">
+                            ${getIconSVG('CheckCircle', 'w-6 h-6 text-lime-500 bg-white rounded-full z-[1]')}
+                        </div>
+                    `;
+                }
+
+
+                return `
+                    <div key="${index}" id="block-container-${index}" class="relative">
+                        ${connectionLine}
+                        ${blockHtml}
+                        ${completionIndicator}
+                    </div>
+                `;
+            }).join('');
+
+            mainContent += '</div>'; // close space-y-8 container
+
+            // CONCLUSÃO
+            if (isComplete) {
+                mainContent += `
+                    <div class="mt-12 p-8 bg-lime-500 rounded-2xl shadow-xl text-white text-center">
+                        ${getIconSVG('CheckCircle', 'w-12 h-12 mx-auto mb-4')}
+                        <h3 class="text-3xl font-bold mb-2">Jornada Concluída!</h3>
+                        <p class="text-xl">
+                            Parabéns! Você conectou todos os Blocos de Conhecimento. Seu Block Chain de inglês está **sólido** e livre de 'Bra-glish'!
+                        </p>
+                        <p class="mt-4 text-base">
+                            A repetição é a chave. Revise os blocos e continue construindo.
+                        </p>
+                    </div>
+                `;
+            }
+
+            // FOOTER
+            mainContent += `
+                <footer class="mt-16 text-center text-sm text-gray-500 border-t pt-8">
+                    <p>&copy; By Daby @2025. Lego-Chain Method. Aprender é construir.</p>
+                </footer>
+            `;
+
+            mainContent += '</main>'; // close main
+
+            container.innerHTML = header + mainContent;
+        }
+
+        // Initialize the app on window load
+        window.onload = function() {
+            renderApp();
+        };
+
+        // Expose handleAnswer and handleBlockCompletion globally for button click handlers
+        window.handleAnswer = handleAnswer;
+        window.handleBlockCompletion = handleBlockCompletion;
+        
+    </script>
+</body>
+</html>
